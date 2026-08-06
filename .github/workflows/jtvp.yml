@@ -56,18 +56,18 @@ jobs:
               -o Zio.m3u \
               -w "%{http_code}" \
               "$JTVP_API_ENDPOINT"
-        )
+         )
 
-       echo "JTVP_HTTP_STATUS=$HTTP_STATUS" >> "$GITHUB_ENV"
+         echo "JTVP_HTTP_STATUS=$HTTP_STATUS" >> "$GITHUB_ENV"
 
-       if [ "$HTTP_STATUS" = "200" ] && [ -s Zio.m3u ]; then
+         if [ "$HTTP_STATUS" = "200" ] && [ -s Zio.m3u ]; then
             echo "JTVP_API_SUCCESS=true" >> "$GITHUB_ENV"
             echo "Playlist downloaded successfully."
-       else
+         else
             echo "Api Error" > Zio.m3u
             echo "JTVP_API_SUCCESS=false" >> "$GITHUB_ENV"
             echo "::warning::API request failed (HTTP $HTTP_STATUS)."
-       fi
+         fi
 
       - name: Commit Changes
         run: |
