@@ -39,6 +39,10 @@ jobs:
         run: |
           set -eo pipefail
 
+          # Decode Base64 credentials automatically if encoded
+          RAW_USER=$(echo "$JTVP_USERNAME" | base64 -d 2>/dev/null || echo "$JTVP_USERNAME")
+          RAW_PASS=$(echo "$JTVP_PASSWORD" | base64 -d 2>/dev/null || echo "$JTVP_PASSWORD")
+
           echo "Connecting to JioTV+ API..."
 
           HTTP_STATUS=$(
@@ -46,13 +50,14 @@ jobs:
               --silent \
               --show-error \
               --location \
+              --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
               --retry 3 \
               --retry-delay 5 \
               --connect-timeout 10 \
               --max-time 30 \
               --get \
-              --data-urlencode "username=${JTVP_USERNAME}" \
-              --data-urlencode "password=${JTVP_PASSWORD}" \
+              --data-urlencode "username=${RAW_USER}" \
+              --data-urlencode "password=${RAW_PASS}" \
               --data-urlencode "token=${JTVP_TOKEN}" \
               --data-urlencode "key_base=${JTVP_KEY_BASE}" \
               -o Zio.m3u \
@@ -63,19 +68,18 @@ jobs:
           echo "HTTP Status: $HTTP_STATUS"
           echo "JTVP_HTTP_STATUS=$HTTP_STATUS" >> "$GITHUB_ENV"
 
-          if [ -f Zio.m3u ]; then
-            echo "----- API Response -----"
-            cat Zio.m3u
-            echo "------------------------"
-          fi
+          echo "----- Server Response Preview -----"
+          head -n 20 Zio.m3u || true
+          echo "----------------------------------"
 
-          if [ "$HTTP_STATUS" = "200" ] && [ -s Zio.m3u ]; then
+          # Verify HTTP 200 AND check if the response is actually an M3U playlist file
+          if [ "$HTTP_STATUS" = "200" ] && grep -q "#EXTM3U" Zio.m3u; then
             echo "JTVP_API_SUCCESS=true" >> "$GITHUB_ENV"
             echo "Playlist downloaded successfully."
           else
-            echo "Api Error" > Zio.m3u
             echo "JTVP_API_SUCCESS=false" >> "$GITHUB_ENV"
-            echo "::warning::API request failed (HTTP $HTTP_STATUS)."
+            echo "::warning::API request failed or response was invalid M3U content."
+            echo "Api Error" > Zio.m3u
           fi
 
       - name: Commit Changes
