@@ -26,8 +26,8 @@ def convert_json_to_m3u():
         
         headers = ch.get("headers", {}) if isinstance(ch.get("headers"), dict) else {}
         cookie = headers.get("cookie") or headers.get("Cookie") or ""
-        referer = headers.get("referer") or headers.get("Referer") or "https://jiotv.com"
-        origin = headers.get("origin") or headers.get("Origin") or "https://jiotv.com"
+        referer = headers.get("referer") or headers.get("Referer") or "https://jiotv.jio.com/"
+        origin = headers.get("origin") or headers.get("Origin") or "https://jiotv.jio.com"
         
         if not stream_url:
             continue
