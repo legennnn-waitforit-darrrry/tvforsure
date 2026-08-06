@@ -274,3 +274,12 @@ https://m3u.cloudplay.qzz.io/z5/0-9-zeecafehd.m3u8
 #EXTINF:-1 tvg-id="0-9-channel_2105335046" group-title="Sports" tvg-logo="https://i.postimg.cc/htng2RH2/Unite8-2HD.png",Unite8 Sports 2 HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
 https://m3u.cloudplay.qzz.io/z5/0-9-channel_2105335046.m3u8
+
+#EXTINF:-1 tvg-id="0-9-channel_2105335046" tvg-logo="https://akamaividz2.zee5.com/image/upload/resources/0-9-channel_2105335046/channel_list/1920x1080list88f79d7c74df4d998da1bbd448f465ff.png" group-title="Sports", Unite8 Sports 2 HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 11.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+https://la.drmlive.net/tp/zee5/channel_2105335046/index.m3u8
+
+#EXTINF:-1 tvg-id="0-9-zeecafehd" tvg-logo="https://akamaividz2.zee5.com/image/upload/resources/0-9-zeecafehd/channel_list/1920x1080list60cd7fc8b57c4e1baf1cd4f603413540.png" group-title="Sports", Unite8 Sports 1 HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 11.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+https://la.drmlive.net/tp/zee5/zeecafehd/index.m3u8
+
