@@ -5,7 +5,6 @@ JSON_URL = "https://m3u-86e.pages.dev/jtv-mb.json"
 OUTPUT_M3U = "playlist.m3u"
 
 def convert_json_to_m3u():
-    # Fetch the JSON content
     req = urllib.request.Request(JSON_URL, headers={'User-Agent': 'Mozilla/5.0'})
     with urllib.request.urlopen(req) as response:
         data = json.loads(response.read().decode('utf-8'))
@@ -21,36 +20,54 @@ def convert_json_to_m3u():
         ch_id = ch.get("id", "")
         logo = ch.get("logo", "")
         group = ch.get("group", "")
-        user_agent = ch.get("user_agent", "")
+        user_agent = ch.get("user_agent", "plaYtv/7.1.3 (Linux;Android 13) - @CloudPlay - ExoPlayerLib/824.0")
         license_url = ch.get("license_url", "")
         stream_url = ch.get("mpd_url") or ch.get("url") or ""
         
-        headers = ch.get("headers", {})
-        cookie = headers.get("cookie", "") if isinstance(headers, dict) else ""
+        headers = ch.get("headers", {}) if isinstance(ch.get("headers"), dict) else {}
+        cookie = headers.get("cookie") or headers.get("Cookie") or ""
+        referer = headers.get("referer") or headers.get("Referer") or "https://jiotv.com"
+        origin = headers.get("origin") or headers.get("Origin") or "https://jiotv.com"
         
         if not stream_url:
             continue
         
-        # Form #EXTINF header
+        # 1. EXTINF channel info line
         m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
         
-        # DRM Clearkey license tag
+        # 2. ClearKey DRM key
         if license_url:
             m3u_lines.append("#KODPROP:inputstream.adaptive.license_type=clearkey")
             m3u_lines.append(f"#KODPROP:inputstream.adaptive.license_key={license_url}")
         
-        # User Agent & Cookies
+        # 3. VLCOPT Header directives
         if user_agent:
             m3u_lines.append(f"#EXTVLCOPT:http-user-agent={user_agent}")
         if cookie:
             m3u_lines.append(f"#EXTVLCOPT:http-cookie={cookie}")
+        if referer:
+            m3u_lines.append(f"#EXTVLCOPT:http-referrer={referer}")
+        if origin:
+            m3u_lines.append(f"#EXTVLCOPT:http-origin={origin}")
             
-        m3u_lines.append(f"{stream_url}\n")
+        # 4. Stream URL with Pipe (|) syntax for max compatibility in OTT Navigator
+        pipe_headers = []
+        if user_agent:
+            pipe_headers.append(f"User-Agent={user_agent}")
+        if referer:
+            pipe_headers.append(f"Referer={referer}")
+        if origin:
+            pipe_headers.append(f"Origin={origin}")
+        if cookie:
+            pipe_headers.append(f"Cookie={cookie}")
+            
+        full_stream_url = f"{stream_url}|{'&'.join(pipe_headers)}" if pipe_headers else stream_url
+        m3u_lines.append(f"{full_stream_url}\n")
 
     with open(OUTPUT_M3U, "w", encoding="utf-8") as f:
         f.write("\n".join(m3u_lines))
     
-    print(f"Successfully updated {OUTPUT_M3U}")
+    print(f"Successfully generated {OUTPUT_M3U} with standard headers.")
 
 if __name__ == "__main__":
     convert_json_to_m3u()
