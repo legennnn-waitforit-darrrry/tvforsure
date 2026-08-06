@@ -1,0 +1,97 @@
+name: StreamFlex JioTV+ API — Zio M3U Sync
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  jiotvplus-api-fetch:
+    name: Fetch JioTV+ API & Export Zio.m3u
+    runs-on: ubuntu-latest
+
+    env:
+      JTVP_API_ENDPOINT: https://n1.cloudplay.qzz.io/app-auth22/url.php
+      JTVP_KEY_BASE: cppremium
+      JTVP_USERNAME: YW50bnUzODI4
+      JTVP_PASSWORD: YW50bnVANzM4OA==
+      JTVP_TOKEN: 4cf3b310b29430b4ee410a8041bf86b441cd289bf6bf538a60f0969ecc495828
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Configuration
+        run: |
+          set -e
+
+          [ -n "$JTVP_API_ENDPOINT" ] || { echo "::error::Missing API endpoint."; exit 1; }
+          [ -n "$JTVP_USERNAME" ] || { echo "::error::Missing JTVP_USERNAME secret."; exit 1; }
+          [ -n "$JTVP_PASSWORD" ] || { echo "::error::Missing JTVP_PASSWORD secret."; exit 1; }
+          [ -n "$JTVP_TOKEN" ] || { echo "::error::Missing JTVP_TOKEN secret."; exit 1; }
+
+          echo "Configuration validated."
+
+      - name: Fetch Playlist
+        run: |
+          set -eo pipefail
+
+          echo "Connecting to JioTV+ API..."
+
+          HTTP_STATUS=$(
+            curl \
+              --silent \
+              --show-error \
+              --location \
+              --retry 3 \
+              --retry-delay 5 \
+              --connect-timeout 10 \
+              --max-time 30 \
+              -o Zio.m3u \
+              -w "%{http_code}" \
+              "$JTVP_API_ENDPOINT"
+          )
+
+          echo "JTVP_HTTP_STATUS=$HTTP_STATUS" >> "$GITHUB_ENV"
+
+          if [ "$HTTP_STATUS" = "200" ] && [ -s Zio.m3u ]; then
+            echo "JTVP_API_SUCCESS=true" >> "$GITHUB_ENV"
+            echo "Playlist downloaded successfully."
+          else
+            echo "Api Error" > Zio.m3u
+            echo "JTVP_API_SUCCESS=false" >> "$GITHUB_ENV"
+            echo "::warning::API request failed (HTTP $HTTP_STATUS)."
+          fi
+
+      - name: Commit Changes
+        run: |
+          git config user.name "jtvp-api-bot"
+          git config user.email "jtvp-api-bot@users.noreply.github.com"
+
+          git add Zio.m3u
+
+          if git diff --cached --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+
+          if [ "$JTVP_API_SUCCESS" = "true" ]; then
+            git commit -m "chore(jtvp-api): update Zio.m3u [$TIMESTAMP]"
+          else
+            git commit -m "chore(jtvp-api): API error [$TIMESTAMP]"
+          fi
+
+          git push
+
+      - name: Summary
+        run: |
+          echo "=============================="
+          echo " StreamFlex JioTV+ API Sync"
+          echo "=============================="
+          echo "HTTP Status : $JTVP_HTTP_STATUS"
+          echo "API Success : $JTVP_API_SUCCESS"
+          echo "Output File : Zio.m3u"
+          echo "Next Run    : ~1 hour"
+          echo "=============================="
