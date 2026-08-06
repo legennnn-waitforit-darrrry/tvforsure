@@ -39,20 +39,23 @@ jobs:
         run: |
           set -eo pipefail
 
-          # Decode Base64 credentials automatically if encoded
+          # Raw inputs
+          B64_USER="$JTVP_USERNAME"
+          B64_PASS="$JTVP_PASSWORD"
+
+          # Decoded inputs
           RAW_USER=$(echo "$JTVP_USERNAME" | base64 -d 2>/dev/null || echo "$JTVP_USERNAME")
           RAW_PASS=$(echo "$JTVP_PASSWORD" | base64 -d 2>/dev/null || echo "$JTVP_PASSWORD")
 
           echo "Connecting to JioTV+ API..."
 
+          # Attempt 1: Decoded plain-text credentials
           HTTP_STATUS=$(
             curl \
               --silent \
               --show-error \
               --location \
               --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
-              --retry 3 \
-              --retry-delay 5 \
               --connect-timeout 10 \
               --max-time 30 \
               --get \
@@ -60,26 +63,51 @@ jobs:
               --data-urlencode "password=${RAW_PASS}" \
               --data-urlencode "token=${JTVP_TOKEN}" \
               --data-urlencode "key_base=${JTVP_KEY_BASE}" \
-              -o Zio.m3u \
+              -o raw_response.txt \
               -w "%{http_code}" \
               "$JTVP_API_ENDPOINT"
           )
 
-          echo "HTTP Status: $HTTP_STATUS"
+          echo "HTTP Status (Decoded Creds): $HTTP_STATUS"
+
+          # Attempt 2: If attempt 1 fails or isn't M3U, retry with raw Base64 credentials
+          if [ "$HTTP_STATUS" != "200" ] || ! grep -q "#EXTM3U" raw_response.txt; then
+            echo "Decoded attempt failed or returned non-M3U content. Retrying with raw Base64 credentials..."
+            HTTP_STATUS=$(
+              curl \
+                --silent \
+                --show-error \
+                --location \
+                --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
+                --connect-timeout 10 \
+                --max-time 30 \
+                --get \
+                --data-urlencode "username=${B64_USER}" \
+                --data-urlencode "password=${B64_PASS}" \
+                --data-urlencode "token=${JTVP_TOKEN}" \
+                --data-urlencode "key_base=${JTVP_KEY_BASE}" \
+                -o raw_response.txt \
+                -w "%{http_code}" \
+                "$JTVP_API_ENDPOINT"
+            )
+            echo "HTTP Status (Raw Creds): $HTTP_STATUS"
+          fi
+
           echo "JTVP_HTTP_STATUS=$HTTP_STATUS" >> "$GITHUB_ENV"
 
-          echo "----- Server Response Preview -----"
-          head -n 20 Zio.m3u || true
-          echo "----------------------------------"
+          echo "========== SERVER RESPONSE BODY =========="
+          cat raw_response.txt
+          echo "=========================================="
 
-          # Verify HTTP 200 AND check if the response is actually an M3U playlist file
-          if [ "$HTTP_STATUS" = "200" ] && grep -q "#EXTM3U" Zio.m3u; then
+          # Verify if response contains M3U contents
+          if [ "$HTTP_STATUS" = "200" ] && grep -q "#EXTM3U" raw_response.txt; then
+            mv raw_response.txt Zio.m3u
             echo "JTVP_API_SUCCESS=true" >> "$GITHUB_ENV"
             echo "Playlist downloaded successfully."
           else
             echo "JTVP_API_SUCCESS=false" >> "$GITHUB_ENV"
-            echo "::warning::API request failed or response was invalid M3U content."
             echo "Api Error" > Zio.m3u
+            echo "::warning::API request failed or response was invalid M3U content."
           fi
 
       - name: Commit Changes
@@ -114,3 +142,5 @@ jobs:
           echo "Output File : Zio.m3u"
           echo "Next Run    : ~1 hour"
           echo "=============================="
+
+      
