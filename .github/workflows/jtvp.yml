@@ -10,6 +10,9 @@ jobs:
     name: Fetch JioTV+ API & Export Zio.m3u
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     env:
       JTVP_API_ENDPOINT: https://n1.cloudplay.qzz.io/app-auth22/url.php
       JTVP_KEY_BASE: cppremium
@@ -32,48 +35,48 @@ jobs:
 
           echo "Configuration validated."
 
- - name: Fetch Playlist
-  run: |
-    set -eo pipefail
+      - name: Fetch Playlist
+        run: |
+          set -eo pipefail
 
-    echo "Connecting to JioTV+ API..."
+          echo "Connecting to JioTV+ API..."
 
-    HTTP_STATUS=$(
-      curl \
-        --silent \
-        --show-error \
-        --location \
-        --retry 3 \
-        --retry-delay 5 \
-        --connect-timeout 10 \
-        --max-time 30 \
-        --get \
-        --data-urlencode "username=${JTVP_USERNAME}" \
-        --data-urlencode "password=${JTVP_PASSWORD}" \
-        --data-urlencode "token=${JTVP_TOKEN}" \
-        --data-urlencode "key_base=${JTVP_KEY_BASE}" \
-        -o Zio.m3u \
-        -w "%{http_code}" \
-        "$JTVP_API_ENDPOINT"
-    )
+          HTTP_STATUS=$(
+            curl \
+              --silent \
+              --show-error \
+              --location \
+              --retry 3 \
+              --retry-delay 5 \
+              --connect-timeout 10 \
+              --max-time 30 \
+              --get \
+              --data-urlencode "username=${JTVP_USERNAME}" \
+              --data-urlencode "password=${JTVP_PASSWORD}" \
+              --data-urlencode "token=${JTVP_TOKEN}" \
+              --data-urlencode "key_base=${JTVP_KEY_BASE}" \
+              -o Zio.m3u \
+              -w "%{http_code}" \
+              "$JTVP_API_ENDPOINT"
+          )
 
-    echo "HTTP Status: $HTTP_STATUS"
-    echo "JTVP_HTTP_STATUS=$HTTP_STATUS" >> "$GITHUB_ENV"
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "JTVP_HTTP_STATUS=$HTTP_STATUS" >> "$GITHUB_ENV"
 
-    if [ -f Zio.m3u ]; then
-      echo "----- API Response -----"
-      cat Zio.m3u
-      echo "------------------------"
-    fi
+          if [ -f Zio.m3u ]; then
+            echo "----- API Response -----"
+            cat Zio.m3u
+            echo "------------------------"
+          fi
 
-    if [ "$HTTP_STATUS" = "200" ] && [ -s Zio.m3u ]; then
-      echo "JTVP_API_SUCCESS=true" >> "$GITHUB_ENV"
-      echo "Playlist downloaded successfully."
-    else
-      echo "Api Error" > Zio.m3u
-      echo "JTVP_API_SUCCESS=false" >> "$GITHUB_ENV"
-      echo "::warning::API request failed (HTTP $HTTP_STATUS)."
-    fi
+          if [ "$HTTP_STATUS" = "200" ] && [ -s Zio.m3u ]; then
+            echo "JTVP_API_SUCCESS=true" >> "$GITHUB_ENV"
+            echo "Playlist downloaded successfully."
+          else
+            echo "Api Error" > Zio.m3u
+            echo "JTVP_API_SUCCESS=false" >> "$GITHUB_ENV"
+            echo "::warning::API request failed (HTTP $HTTP_STATUS)."
+          fi
 
       - name: Commit Changes
         run: |
