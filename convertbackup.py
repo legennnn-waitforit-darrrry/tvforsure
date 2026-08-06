@@ -20,7 +20,7 @@ def convert_json_to_m3u():
         ch_id = ch.get("id", "")
         logo = ch.get("logo", "")
         group = ch.get("group", "")
-        user_agent = ch.get("user_agent", "JioTV.Plus/2.8.4_2076/StreamFlex(StreamFlex;JioSTB) JioTvPlus-AndroidTv")
+        user_agent = ch.get("user_agent", "plaYtv/7.1.3 (Linux;Android 13) - @CloudPlay - ExoPlayerLib/824.0")
         license_url = ch.get("license_url", "")
         stream_url = ch.get("mpd_url") or ch.get("url") or ""
         stream_type = ch.get("type", "").lower()
