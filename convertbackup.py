@@ -1,7 +1,7 @@
 import json
 import urllib.request
 
-JSON_URL = "https://m3u-86e.pages.dev/jtv-mb.json"
+JSON_URL = "https://m3u-86e.pages.dev/mbtv.json"
 OUTPUT_M3U = "playlistbackup.m3u"
 
 def convert_json_to_m3u():
