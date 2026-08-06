@@ -1,7 +1,7 @@
 import json
 import urllib.request
 
-JSON_URL = "https://m3u-86e.pages.dev/mbtv.json"
+JSON_URL = "https://m3u-86e.pages.dev/jtv-mb.json"
 OUTPUT_M3U = "playlist.m3u"
 
 def convert_json_to_m3u():
@@ -23,6 +23,7 @@ def convert_json_to_m3u():
         user_agent = ch.get("user_agent", "plaYtv/7.1.3 (Linux;Android 13) - @CloudPlay - ExoPlayerLib/824.0")
         license_url = ch.get("license_url", "")
         stream_url = ch.get("mpd_url") or ch.get("url") or ""
+        stream_type = ch.get("type", "").lower()
         
         headers = ch.get("headers", {}) if isinstance(ch.get("headers"), dict) else {}
         cookie = headers.get("cookie") or headers.get("Cookie") or ""
@@ -35,12 +36,19 @@ def convert_json_to_m3u():
         # 1. EXTINF channel info line
         m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
         
-        # 2. ClearKey DRM key
+        # 2. Manifest Type (MPD / DASH)
+        if stream_type == "dash" or ".mpd" in stream_url.lower():
+            m3u_lines.append("#KODIPROP:inputstream.adaptive.manifest_type=mpd")
+            m3u_lines.append("#KODPROP:inputstream.adaptive.manifest_type=mpd")
+        
+        # 3. ClearKey DRM key
         if license_url:
+            m3u_lines.append("#KODIPROP:inputstream.adaptive.license_type=clearkey")
+            m3u_lines.append(f"#KODIPROP:inputstream.adaptive.license_key={license_url}")
             m3u_lines.append("#KODPROP:inputstream.adaptive.license_type=clearkey")
             m3u_lines.append(f"#KODPROP:inputstream.adaptive.license_key={license_url}")
         
-        # 3. VLCOPT Header directives
+        # 4. Header directives
         if user_agent:
             m3u_lines.append(f"#EXTVLCOPT:http-user-agent={user_agent}")
         if cookie:
@@ -50,7 +58,7 @@ def convert_json_to_m3u():
         if origin:
             m3u_lines.append(f"#EXTVLCOPT:http-origin={origin}")
             
-        # 4. Stream URL with Pipe (|) syntax for max compatibility in OTT Navigator
+        # 5. Stream URL with Pipe (|) syntax
         pipe_headers = []
         if user_agent:
             pipe_headers.append(f"User-Agent={user_agent}")
@@ -67,7 +75,7 @@ def convert_json_to_m3u():
     with open(OUTPUT_M3U, "w", encoding="utf-8") as f:
         f.write("\n".join(m3u_lines))
     
-    print(f"Successfully generated {OUTPUT_M3U} with standard headers.")
+    print(f"Successfully generated {OUTPUT_M3U} with DASH manifest properties.")
 
 if __name__ == "__main__":
     convert_json_to_m3u()
