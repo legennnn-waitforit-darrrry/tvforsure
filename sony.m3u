@@ -4,7 +4,7 @@ https://sliv.tgaadi.workers.dev/sonypalsd.m3u8
 https://sliv.tgaadi.workers.dev/sethd.m3u8
 #EXTINF:-1 tvg-id="5" tvg-name="SONY SAB HD" tvg-logo="https://img.media.jio.com/tvpimages/3/37/300267_1753198029802_l_medium.jpg" group-title="Entertainment",Sony SAB HD
 https://sliv.tgaadi.workers.dev/sabhd.m3u8
-#EXTINF:-1 tvg-id="18" tvg-name="Sony Yay" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SonyYAYHin.png" group-title="Kids",Sony Yay
+#EXTINF:-1 tvg-id="18" tvg-name="Sony Yay" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SONY_YAY/images/LANDSCAPE_169_HD/LANDSCAPE_169_HD_image.png" group-title="Kids",Sony Yay
 https://sliv.tgaadi.workers.dev/sonyyaysd.m3u8
 #EXTINF:-1 tvg-id="26" tvg-name="Sony MAX HD" tvg-logo="https://img.media.jio.com/tvpimages/3/1/300277_1753198063650_l_medium.jpg" group-title="Movies",Sony MAX HD
 https://sliv.tgaadi.workers.dev/sonymaxhd.m3u8
@@ -29,7 +29,7 @@ https://cloudplay-sonyliv.pages.dev/pal.m3u8
 https://cloudplay-sonyliv.pages.dev/sabhd.m3u8
 #EXTINF:-1 tvg-id="6" tvg-name="SET HD" tvg-logo="https://img.media.jio.com/imagespublic/40/88/300266_1666878589057_p_medium.jpg" group-title="Entertainment",Sony SET HD
 https://cloudplay-sonyliv.pages.dev/sethd.m3u8
-#EXTINF:-1 tvg-id="18" tvg-name="Sony Yay" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SonyYAYHin.png" group-title="Kids",Sony Yay
+#EXTINF:-1 tvg-id="18" tvg-name="Sony Yay" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SONY_YAY/images/LANDSCAPE_169_HD/LANDSCAPE_169_HD_image.png" group-title="Kids",Sony Yay
 https://cloudplay-sonyliv.pages.dev/yay.m3u8
 #EXTINF:-1 tvg-id="26" tvg-name="Sony MAX HD" tvg-logo="https://img.media.jio.com/tvpimages/3/1/300277_1753198063650_l_medium.jpg" group-title="Movies",Sony MAX HD
 https://cloudplay-sonyliv.pages.dev/maxhd.m3u8
@@ -55,7 +55,7 @@ https://la.drmlive.net/tp/sliv-sab.m3u8
 #EXTINF:-1 tvg-id="6" tvg-name="SET HD" tvg-logo="https://img.media.jio.com/imagespublic/40/88/300266_1666878589057_p_medium.jpg" group-title="Entertainment",Sony SET HD
 #KODIPROP:inputstream.adaptive.manifest_type=hls
 https://la.drmlive.net/tp/sliv-sony.m3u8
-#EXTINF:-1 tvg-id="18" tvg-name="Sony Yay" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/SonyYAYHin.png" group-title="Kids",Sony Yay
+#EXTINF:-1 tvg-id="18" tvg-name="Sony Yay" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SONY_YAY/images/LANDSCAPE_169_HD/LANDSCAPE_169_HD_image.png" group-title="Kids",Sony Yay
 https://la.drmlive.net/tp/sliv-yay.m3u8
 #EXTINF:-1 tvg-id="26" tvg-name="Sony MAX HD" tvg-logo="https://img.media.jio.com/tvpimages/3/1/300277_1753198063650_l_medium.jpg" group-title="Movies",Sony MAX HD
 https://la.drmlive.net/tp/sliv-maxhd.m3u8
