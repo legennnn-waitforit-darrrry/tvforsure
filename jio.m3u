@@ -130,7 +130,7 @@ https://jt.drmlive.net/jiotvplus/1110.mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key=https://jt.drmlive.net/jiotvplus/jtck?id=1113
 https://jt.drmlive.net/jiotvplus/1113.mpd
-#EXTINF:-1 tvg-id="34" tvg-name="Jalsha Movies HD" tvg-logo="https://img.media.jio.com/tvpimages/58/46/301992_1753203394938_l_medium.jpg" group-title="Movies",Jalsha Movies HD
+#EXTINF:-1 tvg-id="34" tvg-name="Jalsha Movies HD" tvg-logo="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_JALSHA_MOVIES_HD/images/LANDSCAPE_169_HD/image.png" group-title="Movies",Jalsha Movies HD
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key=https://jt.drmlive.net/jiotvplus/jtck?id=457
 https://jt.drmlive.net/jiotvplus/457.mpd
