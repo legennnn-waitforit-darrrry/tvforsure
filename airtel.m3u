@@ -46,10 +46,12 @@ https://yowaimo.in/Sflex-ArtlPVT0719/DISCOVERY_HD_WORLD.m3u8
 https://yowaimo.in/Sflex-ArtlPVT0719/NAT_GEO_WILD_HD.m3u8
 #EXTINF:-1 tvg-id="42" tvg-name="Sony BBC Earth HD" tvg-logo="https://img.media.jio.com/tvpimages/91/70/304082_1766563774401_l_medium.jpg" group-title="Infotainment",Sony BBC Earth HD
 https://yowaimo.in/Sflex-ArtlPVT0719/SONY_BBC_EARTH_HD.m3u8
+#EXTINF:-1 tvg-id="43" tvg-name="Sony Sports Ten 1 HD" tvg-logo="https://img.media.jio.com/tvpimages/5/8/300256_1753198281835_l_medium.jpg" group-title="Sports",Sony Sports Ten 1 HD
+https://yowaimo.in/Sflex-ArtlPVT0719/SONY_SPORTS_TEN_1_HD.m3u8
 #EXTINF:-1 tvg-id="44" tvg-name="Sony Sports Ten 2 HD" tvg-logo="https://img.media.jio.com/tvpimages/94/91/300273_1753198175927_l_medium.jpg" group-title="Sports",Sony Sports Ten 2 HD
 https://yowaimo.in/Sflex-ArtlPVT0719/SONY_SPORTS_TEN_2_HD.m3u8
-#EXTINF:-1 tvg-id="45" tvg-name="Sony Sports Ten 3 Hindi HD" tvg-logo="https://img.media.jio.com/tvpimages/1/58/300255_1758886957880_l_medium.jpg" group-title="Sports",Sony Sports Ten 3 Hindi HD
-https://yowaimo.in/Sflex-ArtlPVT0719/SONY_SPORTS_TEN_3_HD.m3u8
+#EXTINF:-1 tvg-id="46" tvg-name="Sony Sports Ten 5 HD" tvg-logo="https://img.media.jio.com/tvpimages/31/97/300258_1753198241206_l_medium.jpg" group-title="Sports",Sony Sports Ten 5 HD
+https://yowaimo.in/Sflex-ArtlPVT0719/SONY_SPORTS_TEN_5_HD.m3u8
 #EXTINF:-1 tvg-id="47" tvg-name="Star Sports 1 HD" tvg-logo="https://img.media.jio.com/tvpimages/76/32/301981_1749665662917_p.jpg" group-title="Sports",Star Sports 1 HD
 https://yowaimo.in/Sflex-ArtlPVT0719/STAR_SPORTS_1_HD.m3u8
 #EXTINF:-1 tvg-id="48" tvg-name="Star Sports 1 Hindi HD" tvg-logo="https://img.media.jio.com/tvpimages/5/6/301982_1760005838319_l_medium.jpg" group-title="Sports",Star Sports 1 Hindi HD
