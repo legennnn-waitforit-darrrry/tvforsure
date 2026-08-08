@@ -1,0 +1,18 @@
+#EXTM3U x-tvg-url="https://github.com/whythishome/epg/raw/refs/heads/master/guides/dishtv.in_en.xml.gz"
+
+
+#EXTINF:-1 tvg-id="11" tvg-name="Sangeet Bangla" tvg-logo="https://img.media.jio.com/imagespublic/96/84/SangeetBangla_1574695309972_tv.jpg" group-title="Music",Sangeet Bangla
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=55ef53e7216640ea862b98c3864000f7:11c2726ab75d4e6aaf54e0e09b5ae593
+https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Sangeetbangla2/default/main.mpd?
+#EXTINF:-1 tvg-id="12" tvg-name="ZOOM" tvg-logo="https://img.media.jio.com/tvpimages/60/15/301151_1761908168253_l_medium.jpg" group-title="Music",ZOOM
+#KODIPROP:inputstream.adaptive.license_type=clearkey
+#KODIPROP:inputstream.adaptive.license_key=86edec9e3b7d4042a4d4a1ca14f847ee:9def4315f0004019a3705bcb3cf30ca3
+#EXTINF:-1 tvg-id="20" tvg-name="ABP Ananda" tvg-logo="https://img.media.jio.com/tvpimages/15/31/300090_1753177100293_l_medium.jpg" group-title="News",ABP Ananda
+https://jmp2.uk/stvp-IN4000006CF
+#EXTINF:-1 tvg-id="21" tvg-name="Zee 24 Ghanta" tvg-logo="https://img.media.jio.com/tvpimages/55/27/301356_1753199302139_l_medium.jpg" group-title="News",Zee 24 Ghanta
+https://jmp2.uk/stvp-INBD400003GE
+#EXTINF:-1 tvg-id="22" tvg-name="News18 Bangla" tvg-logo="https://img.media.jio.com/tvpimages/11/70/300293_1753197210858_l_medium.jpg" group-title="News",News18 Bangla
+https://jmp2.uk/stvp-INBD25000081V
+#EXTINF:-1 tvg-id="23" tvg-name="TV9 Bangla" tvg-logo="https://img.media.jio.com/tvpimages/43/95/301139_1753182831500_l_medium.jpg" group-title="News",TV9 Bangla
+https://jmp2.uk/stvp-INBD2500007PD
